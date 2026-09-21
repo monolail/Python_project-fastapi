@@ -1,12 +1,16 @@
+
+
 from typing import List
 
 from fastapi import FastAPI,Body,HTTPException, Depends
-from pydantic import BaseModel
-from sqlalchemy.orm import Session
+from sqlalchemy.orm import Session, session
 
 from database.connection import get_db
-from database.repository import get_todos
 from database.orm import ToDo
+from database.repository import get_todo_by_todo_id, get_todos, create_todo, update_todo, delete_todo
+from schema.reponse import ListToDoResponse, ToDoSchema
+from schema.request import Create_Request
+
 app = FastAPI()
 
 @app.get("/")
@@ -17,19 +21,19 @@ def health_check_handler() :
 todo_data ={
     1 : {
         "id" : 1,
-        "content" : "실전 api 수강0",
+        "contents" : "실전 api 수강0",
         "is_done" : True
 
     },
     2: {
         "id": 2,
-        "content": "실전 api 수강1",
+        "contents": "실전 api 수강1",
         "is_done": False
 
     },
     3: {
         "id": 3,
-        "content": "실전 api 수강2",
+        "contents": "실전 api 수강2",
         "is_done": False
 
     }
@@ -39,34 +43,41 @@ todo_data ={
 def get_todos_handler(
         order : str | None = None,
         session : Session = Depends(get_db),
-) :
+) -> ListToDoResponse:
 
     todos : List[ToDo] = get_todos(session = session)
 
     if order or order == "DESC" :
-        return todos[::-1]
-    return todos
+        return ListToDoResponse(
+        todos = [ToDoSchema.model_validate(todo) for todo in todos[::-1]]
+    )
+
+    return ListToDoResponse(
+        todos = [ToDoSchema.model_validate(todo) for todo in todos]
+    )
 
 @app.get("/todos/{todo_id}", status_code = 200 )
-def get_todo_handler(todo_id:int) :
-    todo = todo_data.get(todo_id)
+def get_todo_handler(
+        todo_id:int,
+        session : Session = Depends(get_db)
+) -> ToDoSchema:
+    todo : ToDo | None = get_todo_by_todo_id(session = session, todo_id = todo_id)
 
     if todo :
-        return todo
+        return ToDoSchema.model_validate(todo)
 
     raise HTTPException(status_code = 404,detail = "Todo Not Found")
 
 
-
-class CreateToDoRequest(BaseModel) :
-    id : int
-    content : str
-    is_done : bool
-
 @app.post("/todos",status_code = 201)
-def create_todo_handler(request : CreateToDoRequest) :
-    todo_data[request.id] = request.dict()
-    return todo_data[request.id]
+def create_todo_handler(
+        request : Create_Request,
+        session : Session = Depends(get_db),
+) -> ToDoSchema :
+    todo: ToDo = ToDo.create(request= request)
+    todo: ToDo = create_todo(session = session, todo=todo) # id = int
+
+    return ToDoSchema.model_validate(todo)
 
 @app.patch("/todos/{todo_id}",status_code= 200)
 def update_todo_handler(
@@ -76,14 +87,28 @@ def update_todo_handler(
 ) :
     todo = todo_data.get(todo_id)
     if todo :
-        todo["is_done"] = is_done
-        return todo
+        # update
+        if is_done is True :
+            todo.done()
+        else :
+            todo.undone()
+
+        todo : ToDo = update_todo(Session=session, todo = todo)
+
+        return ToDoSchema.model_validate(todo)
 
     raise HTTPException(status_code=404,detail="Todo Not Found")
 
 @app.delete("/todos{todo_id}",status_code=204)
-def delete_todo_handler(todo_id : int) :
-    todo = todo_data.pop(todo_id, None)
-    if todo :
-        return
-    raise  HTTPException(status_code=404,detail="Todo Not Found")
+def delete_todo_handler(
+        todo_id : int,
+        session : Session = Depends(get_db),
+) :
+    todo: ToDo | None = get_todo_by_todo_id(session=session, todo_id=todo_id)
+
+    if not todo:
+        #delete
+        raise HTTPException(status_code=404, detail="Todo Not Found")
+    delete_todo(session= session, todo_id = todo_id)
+
+
