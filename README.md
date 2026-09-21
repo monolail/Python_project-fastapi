@@ -4,7 +4,13 @@
 
 ## 📌 프로젝트 소개
 - FastAPI의 기본 개념과 활용법을 익히기 위한 실습 프로젝트입니다.
-- 라우팅, 데이터베이스 연동(SQLAlchemy), Pydantic을 활용한 데이터 검증 등의 실습 내용이 포함되어 있습니다.
+- 초기 Mock Data를 활용한 API에서 시작하여, 실제 데이터베이스 연동 및 아키텍처 패턴을 적용하는 과정이 담겨 있습니다.
+
+## 🌟 주요 구현 내용
+- **CRUD API 구현:** ToDo 생성, 조회, 수정, 삭제 API 구현
+- **데이터베이스 연동:** SQLAlchemy ORM을 활용한 데이터베이스 모델링 및 쿼리
+- **Repository 패턴 적용:** 데이터 접근 계층(Repository)과 비즈니스 로직(API)의 분리 (`repository.py`)
+- **Pydantic 스키마 활용:** Request 및 Response 데이터의 타입 검증 및 직렬화 (`schema` 디렉토리)
 
 ## 🛠 기술 스택
 - **Language:** Python 3
