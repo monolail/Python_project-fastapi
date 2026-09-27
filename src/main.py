@@ -17,27 +17,8 @@ app = FastAPI()
 def health_check_handler() :
     return {"ping":"pong"}
 
-# 3개의 아이템을 있는 todo 데이터
-todo_data ={
-    1 : {
-        "id" : 1,
-        "contents" : "실전 api 수강0",
-        "is_done" : True
 
-    },
-    2: {
-        "id": 2,
-        "contents": "실전 api 수강1",
-        "is_done": False
 
-    },
-    3: {
-        "id": 3,
-        "contents": "실전 api 수강2",
-        "is_done": False
-
-    }
-}
 # 따로 Statuscode를 작성하지 않을 시 디폴트로 200 설정
 @app.get("/todos", status_code = 200 )
 def get_todos_handler(

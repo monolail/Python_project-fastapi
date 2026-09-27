@@ -11,12 +11,14 @@
 - **데이터베이스 연동:** SQLAlchemy ORM을 활용한 데이터베이스 모델링 및 쿼리
 - **Repository 패턴 적용:** 데이터 접근 계층(Repository)과 비즈니스 로직(API)의 분리 (`repository.py`)
 - **Pydantic 스키마 활용:** Request 및 Response 데이터의 타입 검증 및 직렬화 (`schema` 디렉토리)
+- **테스트 코드 작성:** Pytest와 FastAPI TestClient를 활용한 API 유닛 테스트 구현 및 Mocking 적용 (`tests` 디렉토리)
 
 ## 🛠 기술 스택
 - **Language:** Python 3
 - **Framework:** FastAPI
 - **Database:** SQLAlchemy (ORM), PyMySQL
 - **Server:** Uvicorn
+- **Testing:** Pytest
 
 ## 🚀 실행 방법
 
