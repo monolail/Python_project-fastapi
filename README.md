@@ -8,7 +8,8 @@
 
 ## 🌟 주요 구현 내용
 - **CRUD API 구현:** ToDo 생성, 조회, 수정, 삭제 API 구현
-- **라우터 분리 (APIRouter):** `main.py`에 집중된 엔드포인트를 `api/todo.py`로 분리하여 모듈화
+- **유저 기능 (회원가입):** `User` 데이터베이스 모델 추가 및 ToDo와 1:N 외래키(ForeignKey) 관계 매핑 (`api/user.py`)
+- **라우터 분리 (APIRouter):** `main.py`에 집중된 엔드포인트를 `api/todo.py`, `api/user.py`로 분리하여 모듈화
 - **데이터베이스 연동:** SQLAlchemy ORM을 활용한 데이터베이스 모델링 및 쿼리
 - **Repository 패턴 고도화:** 데이터 접근 계층을 클래스(`ToDoRepository`)로 추상화하여 의존성 주입 구조 개선
 - **Pydantic 스키마 활용:** Request 및 Response 데이터의 타입 검증 및 직렬화 (`schema` 디렉토리)
