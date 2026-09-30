@@ -21,6 +21,7 @@
 - **Database:** SQLAlchemy (ORM), PyMySQL
 - **Server:** Uvicorn
 - **Testing:** Pytest
+- **Tools** Docker, Pycharm, mysql
 
 ## 🚀 실행 방법
 
