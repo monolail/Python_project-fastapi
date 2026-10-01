@@ -5,7 +5,15 @@ class ToDoSchema(BaseModel) :
     contents : str
     is_done : bool
 
-    model_config = ConfigDict(from_attributes=True)
+    class Config :
+        orm_mode = True
+
 
 class ListToDoResponse(BaseModel) :
     todos : list[ToDoSchema]
+
+class UserSchema(BaseModel) :
+    id:int
+    username :str
+    class Config :
+        orm_mode = True

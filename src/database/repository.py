@@ -6,7 +6,8 @@ from sqlalchemy import select
 from sqlalchemy.orm import Session
 
 from database.connection import get_db
-from database.orm import ToDo
+from database.orm import ToDo, User
+
 
 class ToDoRepository:
     def __init__(self, session : Session = Depends(get_db)):
@@ -38,3 +39,15 @@ class ToDoRepository:
 
         self.session.execute(delete(ToDo).where(ToDo.id == todo_id))
         self.session.commit()
+
+
+class UserRepository :
+    def __init__(self, session: Session = Depends(get_db)):
+        self.session = session
+
+    def save_user(self, user:User) -> User:
+        self.session.add(instance=user)
+        self.session.commit()  # db save
+        self.session.refresh(instance=user)  # db read -> todo_id
+
+        return user
