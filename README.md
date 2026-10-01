@@ -1,14 +1,14 @@
 # Python_project-fastapi
 
-본 리포지토리는 인프런(Inflearn) 강의 **<실전! FastAPI 입문>**을 수강하며 진행한 백엔드 API 서버 실습 코드를 담고 있습니다.
+본 리포지토리는 인프런(Inflearn) 강의 <**실전! FastAPI 입문**>을 수강하며 진행한 백엔드 API 서버 실습 코드를 담고 있습니다.
 
-## 📌 프로젝트 소개
+## 프로젝트 소개
 - FastAPI의 핵심 개념과 동작 원리를 익히고, 실무에서 사용하는 백엔드 아키텍처를 점진적으로 구축하는 실습 프로젝트입니다.
 - 초기에는 메모리(Mock Data) 기반의 간단한 라우팅으로 시작하여, 데이터베이스 연동, 아키텍처 패턴 적용, 테스트 코드 작성 등 점진적 리팩토링(Refactoring) 과정을 거쳐 발전해 온 코드베이스입니다.
 
 ---
 
-## 🌟 지금까지의 상세 구현 내용 (히스토리)
+## 지금까지의 상세 구현 내용 (히스토리)
 
 ### 1. API 라우팅 및 CRUD 완벽 구현
 - **ToDo 도메인 (`api/todo.py`):** 할 일(ToDo) 항목에 대한 **생성(Create), 단일/전체 조회(Read), 수정(Update - 상태 변경), 삭제(Delete)** API를 모두 구현했습니다.
@@ -28,14 +28,14 @@
 - **Pydantic 스키마 (`schema/request.py`, `schema/response.py`):** 
   - 클라이언트로부터 전달받는 Request 데이터 검증, 그리고 서버가 응답하는 Response 직렬화를 엄격한 타입 시스템으로 통제하도록 구현했습니다 (`orm_mode` 활성화).
 
-### 4. 강력한 테스트 코드 (Pytest & Mocking)
+### 4. 테스트 코드 (Pytest & Mocking)
 - **도메인별 테스트 분리:** `tests/test_todos_api.py`와 `tests/test_users_api.py`로 도메인별 테스트를 분리하여 관리합니다.
 - **단위 테스트 (Unit Test):** `mocker.patch.object`를 사용하여 실제 DB에 의존하지 않고 Repository 및 Service 계층을 모킹(Mocking)함으로써 API 엔드포인트 자체의 로직을 독립적으로 검증합니다.
 - **Fixture 적용:** `conftest.py`에 `TestClient`를 픽스처로 등록해 모든 테스트에서 재사용 가능하게 구성했습니다.
 
 ---
 
-## 🛠 기술 스택
+## 기술 스택
 - **Language:** Python 3
 - **Framework:** FastAPI
 - **Database:** SQLAlchemy (ORM), PyMySQL
@@ -44,7 +44,7 @@
 - **Server:** Uvicorn
 - **Tools:** Docker, PyCharm, MySQL
 
-## 🚀 실행 방법
+## 실행 방법
 
 ### 1. 가상 환경 설정 및 패키지 설치
 ```bash
