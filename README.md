@@ -11,7 +11,7 @@
 | :--- | :--- |
 | **요청·응답 구조** | **FastAPI 라우터 & Pydantic:** `APIRouter`를 통해 도메인별(User, ToDo) 엔드포인트를 분리하고, Pydantic 스키마(`schema/request.py`, `schema/response.py`)를 통해 클라이언트-서버 간 데이터 규격을 엄격하게 정의하여 처리합니다. |
 | **데이터 저장** | **SQLAlchemy ORM & MySQL:** `User`(회원)와 `ToDo`(할 일) 모델을 정의하고 1:N 관계(외래키)를 설정했습니다. `Repository` 패턴을 도입하여 DB 쿼리(저장, 조회, 수정, 삭제) 로직을 비즈니스 로직과 분리했습니다. |
-| 단방향 암호화 | **Bcrypt 패스워드 해싱:** 회원의 비밀번호를 평문으로 저장하지 않고, `UserService` 계층에서 `bcrypt` 라이브러리를 활용해 단방향 해싱 암호화 처리 후 DB에 저장하여 기초적인 보안을 확보했습니다. (인증/인가 토큰 처리는 추후 확장 예정) |
+| **인증과 세션 (보안)** | **JWT (JSON Web Token) 인증:** `python-jose`를 활용하여 회원 로그인 시 Access Token을 발급하고, API 요청 헤더(`HTTPBearer`)를 통해 토큰을 검증 및 복호화(Decode)하여 사용자를 식별합니다. |
 | **동시성 및 트랜잭션** | **세션 단위 DB 트랜잭션:** FastAPI의 `Depends(get_db)`를 통해 요청(Request)마다 독립적인 SQLAlchemy 세션을 생성하고 할당하여 데이터가 꼬이지 않도록 트랜잭션을 안전하게 격리합니다. |
 | **검증 로직** | **Pydantic 자동 검증:** 클라이언트의 잘못된 요청(타입 불일치, 누락 등)을 로직에 도달하기 전 프레임워크(Pydantic) 단에서 자동으로 필터링 및 422 에러를 반환해 서버를 보호합니다. |
 | **예외 처리** | **HTTPException:** 존재하지 않는 ToDo를 조회하거나 수정하려 할 때(예: `get_todo_by_todo_id` 반환값이 없을 경우) `HTTPException(404)`을 발생시켜 클라이언트에게 명확한 실패 원인을 반환합니다. |
