@@ -44,12 +44,18 @@
 - **단위 테스트 (Unit Test):** `mocker.patch.object`를 사용하여 실제 DB에 의존하지 않고 Repository 및 Service 계층을 모킹(Mocking)함으로써 API 엔드포인트 자체의 로직을 독립적으로 검증합니다.
 - **Fixture 적용:** `conftest.py`에 `TestClient`를 픽스처로 등록해 모든 테스트에서 재사용 가능하게 구성했습니다.
 
+### 5. Redis 캐싱 및 비동기 작업 처리 (BackgroundTasks)
+- **Redis 연동 (`cache.py`):** 인메모리 데이터 저장소인 Redis를 연동하여 이메일 인증을 위한 OTP(One-Time Password) 시스템을 구축했습니다.
+- **OTP 만료 시간(TTL) 제어:** 발급된 OTP 번호를 3분 동안만 유효하도록 Redis의 `expire` 기능을 활용해 안전하게 관리합니다.
+- **비동기 메일 발송 (`BackgroundTasks`):** OTP 인증 완료 후 시간이 오래 걸리는 작업(이메일 발송 등)을 FastAPI의 `BackgroundTasks`를 통해 백그라운드에서 비동기 처리하여 응답 지연을 방지했습니다.
+
 ---
 
 ## 기술 스택
 - **Language:** Python 3
 - **Framework:** FastAPI
 - **Database:** SQLAlchemy (ORM), PyMySQL
+- **Cache:** Redis
 - **Security:** bcrypt (비밀번호 단방향 암호화)
 - **Testing:** Pytest, pytest-mock
 - **Server:** Uvicorn

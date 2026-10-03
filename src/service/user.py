@@ -1,4 +1,6 @@
+import random
 import datetime
+import time
 from datetime import timedelta,datetime
 
 import bcrypt
@@ -40,3 +42,12 @@ class UserService :
         )
         # expire
         return payload["sub"] # username
+
+    @staticmethod
+    def create_otp(self) -> int :
+        return random.randint(1000,9999)
+
+    @staticmethod
+    def send_email_to_user( email:str)->None:
+        time.sleep(10)
+        print(f"sending email to {email}!")
